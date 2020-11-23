@@ -27,11 +27,6 @@ import org.json.JSONException;
 
 import java.lang.reflect.Method;
 
-// import android.content.*;
-// import android.net.wifi.*;
-// import java.lang.reflect.*;
-// import org.apache.cordova.*;
-
 
 public class WifiHotspot extends CordovaPlugin {
 
@@ -59,8 +54,6 @@ public class WifiHotspot extends CordovaPlugin {
             if(action.equals("say_hello")){
                 this.sayToast(args.getString(0), callbackContext);
                 return true;
-                // this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
-                // return true;
             }
 
             if (action.equals("isApOn")) {
@@ -148,14 +141,21 @@ public class WifiHotspot extends CordovaPlugin {
       WifiConfiguration conf = new WifiConfiguration();
       conf.SSID =  SSID;
       conf.preSharedKey  = PASSWORD;
+
+      conf.allowedKeyManagement.set(4);
+      conf.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+
+      // conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
       // conf.hiddenSSID = false;
-      conf.status = WifiConfiguration.Status.ENABLED;
+      // conf.status = WifiConfiguration.Status.ENABLED;
       // conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
       // conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-      conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+      // conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
       // conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
       // conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+
       // conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+
       return conf;
     }
 
@@ -163,8 +163,7 @@ public class WifiHotspot extends CordovaPlugin {
         Log.v(LOG_H, "chekPermission");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             //implode here popup for ask user
-            // switchToWifiSettings();
-            askUser("Please configure turn on HotSpot with data<br>Name: DAV<br>Password: DAV_2@20<br><b>Otherwise you can`t start job!<b>", "Attention!", "OK", false);
+            askUser("Please configure turn on HotSpot with data<br>Name: " + SSID + "<br>Password: " + PASSWORD + "<br><b>Otherwise you can`t start job!<b>", "Attention!", "OK", false);
         }
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // chek if build SDK greater than or equal to Android 6 Marshmallow
           if (!Settings.System.canWrite(context)) {
@@ -188,7 +187,6 @@ public class WifiHotspot extends CordovaPlugin {
     }
 
     public synchronized void askUser(final String msg, final String title, final String positiveButton, Boolean type) {
-      // final String msg="This is a test", title="Atantion!", positiveButton="pushMe";
 
     	final CordovaInterface cordova = this.cordova;
 
@@ -226,7 +224,7 @@ public class WifiHotspot extends CordovaPlugin {
         this.cordova.getActivity().runOnUiThread(runnable);
     }
 
-    private Builder createDialog(CordovaInterface cordova) {
+    private Builder createDialog(CordovaInterface cordova) { // define the method using by SDK
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             return new Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
