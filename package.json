@@ -1,0 +1,26 @@
+{
+  "name": "cordova-plugin-wifi-hotspot",
+  "version": "1.0.1",
+  "description": "Cordova Wifi HotSpot Plugin",
+  "cordova": {
+    "id": "cordova-plugin-wifi-hotspot",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petrenkodesign/cordova-plugin-wifi-hotspot"
+  },
+  "keywords": [
+    "cordova",
+    "hotspot",
+    "wifi"
+  ],
+  "author": "Alex Petrenko",
+  "license": "MIT",
+  "devDependencies": {
+    "cordova-plugin-xml": "0.1.2"
+  }
+}
