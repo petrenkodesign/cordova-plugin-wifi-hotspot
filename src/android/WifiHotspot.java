@@ -64,6 +64,14 @@ public class WifiHotspot extends CordovaPlugin {
                 return true;
             }
 
+            if (action.equals("switchAPoff")) {
+                Context context = this.cordova.getActivity().getApplicationContext();
+                this.switchAPoff(context);
+
+                callbackContext.success("Call switchAPoff function");
+                return true;
+            }
+
             if (action.equals("configApState")) {
                 Context context = this.cordova.getActivity().getApplicationContext();
                 boolean res = this.configApState(context);
@@ -112,6 +120,19 @@ public class WifiHotspot extends CordovaPlugin {
         catch (Throwable ignored) {}
         return false;
     }
+
+    private static boolean switchAPoff(Context context) {
+        Log.v(LOG_H, "switchAPoff function");
+        WifiManager wifimanager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
+        try {
+            wifimanager.setWifiEnabled(false);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     private static boolean configApState(Context context) {
         Log.v(LOG_H, "configApState function");

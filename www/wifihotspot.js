@@ -34,6 +34,9 @@ var wifihotspot = {
   isApOn: function (WHPsuccess, WHPerror) {
        exec(WHPsuccess, WHPerror, 'WifiHotspot', 'isApOn', []);
   },
+  switchAPoff: function (WHPsuccess, WHPerror) {
+       exec(WHPsuccess, WHPerror, 'WifiHotspot', 'switchAPoff', []);
+  },
   configApState: function (WHPsuccess, WHPerror) {
        exec(WHPsuccess, WHPerror, 'WifiHotspot', 'configApState', []);
   },
