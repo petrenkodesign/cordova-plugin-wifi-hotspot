@@ -122,9 +122,10 @@ public class WifiHotspot extends CordovaPlugin {
             boolean APstatus = isApOn(context);
             // if WiFi is on, turn it off
             Log.v(LOG_H, "isAPon - " + APstatus);
-            if(APstatus) {
+
+            // if(APstatus) { //  find issue for android 5
                 wifimanager.setWifiEnabled(false);
-            }
+            // }
 
             wifimanager.addNetwork(wificonfiguration);
 
@@ -163,7 +164,7 @@ public class WifiHotspot extends CordovaPlugin {
         Log.v(LOG_H, "chekPermission");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             //implode here popup for ask user
-            askUser("Please configure turn on HotSpot with data<br>Name: " + SSID + "<br>Password: " + PASSWORD + "<br><b>Otherwise you can`t start job!<b>", "Attention!", "OK", false);
+            askUser("Please configure turn on HotSpot with: \n Name: " + SSID + " \n Password: " + PASSWORD + "\n Otherwise you can`t start job!", "Attention!", "OK", false);
         }
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // chek if build SDK greater than or equal to Android 6 Marshmallow
           if (!Settings.System.canWrite(context)) {
@@ -182,8 +183,10 @@ public class WifiHotspot extends CordovaPlugin {
 
     public void switchToWifiSettings() {
         Log.v(LOG_H, "Switch to Wifi Settings");
-        Intent settingsIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-        cordova.getActivity().startActivity(settingsIntent);
+        // Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+        Intent intent = new Intent();
+        intent.setClassName("com.android.settings", "com.android.settings.TetherSettings");
+        cordova.getActivity().startActivity(intent);
     }
 
     public synchronized void askUser(final String msg, final String title, final String positiveButton, Boolean type) {
@@ -227,7 +230,7 @@ public class WifiHotspot extends CordovaPlugin {
     private Builder createDialog(CordovaInterface cordova) { // define the method using by SDK
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            return new Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+            return new Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_DARK);
         } else {
             return new Builder(cordova.getActivity());
         }
