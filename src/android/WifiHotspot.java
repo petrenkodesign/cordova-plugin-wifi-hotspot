@@ -72,9 +72,9 @@ public class WifiHotspot extends CordovaPlugin {
                 return true;
             }
 
-            if (action.equals("configApState")) {
+            if (action.equals("switchAPon")) {
                 Context context = this.cordova.getActivity().getApplicationContext();
-                boolean res = this.configApState(context);
+                boolean res = this.switchAPon(context);
                 if(res) {
                   this.sayToast("HotSpot started", callbackContext);
                   callbackContext.success("Call configApState function");
@@ -101,11 +101,15 @@ public class WifiHotspot extends CordovaPlugin {
 
 
     private void sayToast (final String msg, CallbackContext callbackContext) {
+        callToast (msg);
+        callbackContext.success("Showing toast");
+    }
+
+    private void callToast (String msg) {
         Context context = cordova.getActivity().getApplicationContext();
         int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, msg, duration);
         toast.show();
-        callbackContext.success("Showing toast");
     }
 
 
@@ -121,11 +125,19 @@ public class WifiHotspot extends CordovaPlugin {
         return false;
     }
 
+    private boolean isWifiOn(Context context) {
+        WifiManager wifimanager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
+        return wifimanager.isWifiEnabled();
+    }
+
     private static boolean switchAPoff(Context context) {
         Log.v(LOG_H, "switchAPoff function");
         WifiManager wifimanager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
+        if (wifimanager == null) return false;
         try {
             wifimanager.setWifiEnabled(false);
+            Method setWifiApEnabled = WifiManager.class.getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
+            setWifiApEnabled.invoke(wifimanager, null, false);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -134,19 +146,24 @@ public class WifiHotspot extends CordovaPlugin {
     }
 
 
-    private static boolean configApState(Context context) {
+    private boolean switchAPon(Context context) {
         Log.v(LOG_H, "configApState function");
         WifiManager wifimanager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
         WifiConfiguration wificonfiguration = getWifiApConfiguration();
         Log.v(LOG_H, "wificonfiguration=" + wificonfiguration);
         try {
             boolean APstatus = isApOn(context);
+            boolean isWifiOn = isWifiOn(context);
             // if WiFi is on, turn it off
-            Log.v(LOG_H, "isAPon - " + APstatus);
+            Log.v(LOG_H, "isApOn - " + APstatus);
+            Log.v(LOG_H, "isWifiOn - " + isWifiOn);
 
-            // if(APstatus) { //  find issue for android 5
-                wifimanager.setWifiEnabled(false);
-            // }
+            callToast ("isApOn - " + APstatus);
+            callToast ("isWifiOn - " + isWifiOn);
+
+            if(APstatus || isWifiOn) {
+                switchAPoff(context) ;
+            }
 
             wifimanager.addNetwork(wificonfiguration);
 
@@ -165,7 +182,7 @@ public class WifiHotspot extends CordovaPlugin {
       conf.preSharedKey  = PASSWORD;
 
       conf.allowedKeyManagement.set(4);
-      conf.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+      // conf.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
 
       // conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
       // conf.hiddenSSID = false;

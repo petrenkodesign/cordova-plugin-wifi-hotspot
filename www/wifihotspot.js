@@ -37,8 +37,8 @@ var wifihotspot = {
   switchAPoff: function (WHPsuccess, WHPerror) {
        exec(WHPsuccess, WHPerror, 'WifiHotspot', 'switchAPoff', []);
   },
-  configApState: function (WHPsuccess, WHPerror) {
-       exec(WHPsuccess, WHPerror, 'WifiHotspot', 'configApState', []);
+  switchAPon: function (WHPsuccess, WHPerror) {
+       exec(WHPsuccess, WHPerror, 'WifiHotspot', 'switchAPon', []);
   },
   chekPermission: function (WHPsuccess, WHPerror) {
        exec(WHPsuccess, WHPerror, 'WifiHotspot', 'chekPermission', []);
