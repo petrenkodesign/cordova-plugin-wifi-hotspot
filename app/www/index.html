@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Add meta below for console script working -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" /> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="css/index.css">
+        <title>Device WiFi Hotspot</title>
+    </head>
+    <body>
+        <div class="app">
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+            <h1>Device WiFi Hotspot</h1>
+            <div class="tbox_content">
+              <input type="text" id="hs_ssid" class="tbox" placeholder="SSID">
+              <input type="password" id="hs_pswd" class="tbox" placeholder="Password">
+              <p>
+                <p>
+                  <button id="perm_chek_button">Permissions Checking</button>
+                </p>
+                <p>
+                  <button id="hotspot_start">Start Hotspot</button>
+                </p>
+                <p>
+                  <button id="hotspot_stop">Stop Hotspot</button>
+                </p>
+              </p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://petrenkodesign.github.io/debugconsole/js/debugconsole.js"></script>
+        <script src="cordova.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>
