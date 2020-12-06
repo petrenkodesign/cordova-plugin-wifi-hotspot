@@ -158,8 +158,8 @@ public class WifiHotspot extends CordovaPlugin {
             Log.v(LOG_H, "isApOn - " + APstatus);
             Log.v(LOG_H, "isWifiOn - " + isWifiOn);
 
-            callToast ("isApOn - " + APstatus);
-            callToast ("isWifiOn - " + isWifiOn);
+            // callToast ("isApOn - " + APstatus);
+            // callToast ("isWifiOn - " + isWifiOn);
 
             if(APstatus || isWifiOn) {
                 switchAPoff(context) ;
